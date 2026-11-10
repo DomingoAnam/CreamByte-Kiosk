@@ -184,17 +184,17 @@ a:focus-visible {
 .form-error {
   margin: 0;
   color: #b0284b;
-  font-size: 10px;
+  font-size: clamp(11px, 0.85vw, 14px);
   font-weight: 700;
   line-height: 1.5;
 }
 .totals {
   display: grid;
-  gap: 8px;
-  padding: 15px 24px;
+  gap: clamp(8px, 0.7vw, 12px);
+  padding: clamp(15px, 1.4vw, 22px) clamp(24px, 2.2vw, 36px);
   border-top: 1px solid #f1dfd9;
   background: #fff7f4;
-  font-size: 11px;
+  font-size: clamp(12px, 1vw, 16px);
 }
 .total-row {
   display: flex;
@@ -224,10 +224,6 @@ a:focus-visible {
   .panel {
     min-height: min(700px, calc(100dvh - 136px));
     border-radius: 38px;
-  }
-  .totals {
-    padding: 18px 28px;
-    font-size: 13px;
   }
 }
 @media (max-width: 480px) {

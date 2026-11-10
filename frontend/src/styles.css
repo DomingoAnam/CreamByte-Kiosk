@@ -32,6 +32,7 @@
   --cb-shadow-primary: 0 5px 12px rgba(240, 79, 123, 0.2);
   --cb-radius-panel: 32px;
   --cb-radius-btn: 999px;
+  --cb-topbar-height: clamp(64px, 4.8vw, 84px);
 }
 
 /* ---------- Reset & base ---------- */
@@ -76,11 +77,11 @@ a:focus-visible {
 
 /* ---------- App shell: top bar ---------- */
 .topbar {
-  height: 64px;
+  height: var(--cb-topbar-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 22px;
+  padding: 0 clamp(22px, 2.2vw, 40px);
   border-bottom: 1px solid #f8e9e4;
   background: #fff;
   box-shadow: 0 2px 8px rgba(54, 15, 2, 0.06);
@@ -91,49 +92,53 @@ a:focus-visible {
 }
 
 .brand-mark {
-  width: 52px;
-  height: 52px;
+  width: clamp(52px, 4.2vw, 72px);
+  height: clamp(52px, 4.2vw, 72px);
   object-fit: contain;
 }
 
 .language-pill {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
+  gap: clamp(8px, 0.8vw, 12px);
+  padding: clamp(9px, 0.9vw, 14px) clamp(14px, 1.3vw, 22px);
   border: 0;
   border-radius: 999px;
   background: #fff4f1;
   color: #694a44;
-  font-size: 12px;
+  font-size: clamp(12px, 1vw, 16px);
   font-weight: 700;
 }
 
 .language-icon {
-  width: 16px;
-  height: 16px;
+  width: clamp(16px, 1.3vw, 22px);
+  height: clamp(16px, 1.3vw, 22px);
 }
 
 .language-caret {
-  width: 10px;
+  width: clamp(10px, 0.8vw, 14px);
   height: auto;
 }
 
 /* ---------- App shell: main panel ---------- */
 .kiosk-main {
-  min-height: calc(100vh - 64px);
-  min-height: calc(100dvh - 64px);
+  min-height: calc(100vh - var(--cb-topbar-height));
+  min-height: calc(100dvh - var(--cb-topbar-height));
   display: flex;
   justify-content: center;
   align-items: stretch;
-  padding: 22px 18px;
+  padding: clamp(22px, 2.4vw, 40px) clamp(18px, 2.4vw, 44px);
   background: #fff1ec;
 }
 
 .panel {
   position: relative;
-  width: min(100%, 790px);
-  min-height: min(700px, calc(100dvh - 108px));
+  width: min(
+    100%,
+    clamp(790px, 88vw, 1000px),
+    max(790px, calc((100dvh - 140px) * 0.86))
+  );
+  min-height: min(720px, calc(100dvh - var(--cb-topbar-height) - 44px));
   border-radius: var(--cb-radius-panel);
   border: 1px solid var(--cb-border);
   background: var(--cb-surface);
@@ -173,13 +178,13 @@ a:focus-visible {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(100%, 460px);
+  width: min(100%, clamp(460px, 42vw, 600px));
   aspect-ratio: 1;
   object-fit: contain;
 }
 
 .home-content {
-  width: min(100%, 470px);
+  width: min(100%, clamp(470px, 44vw, 620px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,7 +193,7 @@ a:focus-visible {
 
 .home-content h1 {
   margin: 0;
-  font-size: clamp(23px, 3.2vw, 31px);
+  font-size: clamp(26px, 3vw, 44px);
   font-weight: 800;
   letter-spacing: -0.04em;
 }
@@ -196,20 +201,20 @@ a:focus-visible {
 .home-content > p:not(.member-welcome) {
   margin: 9px 0 0;
   color: var(--cb-text-muted);
-  font-size: 13px;
+  font-size: clamp(14px, 1.05vw, 18px);
 }
 
 /* ---------- Buttons ---------- */
 .primary-button,
 .secondary-button {
-  min-height: 48px;
+  min-height: clamp(50px, 3.4vw, 64px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 12px 26px;
+  gap: clamp(8px, 0.8vw, 12px);
+  padding: clamp(12px, 1.1vw, 16px) clamp(26px, 2.2vw, 36px);
   border-radius: var(--cb-radius-btn);
-  font-size: 14px;
+  font-size: clamp(15px, 1.1vw, 20px);
   font-weight: 700;
   text-decoration: none;
   transition:
@@ -259,10 +264,10 @@ a:focus-visible {
 .back-button {
   position: absolute;
   z-index: 3;
-  top: 32px;
+  top: clamp(32px, 2.6vw, 44px);
   left: -18px;
-  width: 42px;
-  height: 42px;
+  width: clamp(42px, 3.2vw, 56px);
+  height: clamp(42px, 3.2vw, 56px);
   display: grid;
   place-items: center;
   padding: 0;

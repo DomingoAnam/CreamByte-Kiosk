@@ -1,12 +1,13 @@
 .build-panel {
-  min-height: min(760px, calc(100dvh - 108px));
+  min-height: min(780px, calc(100dvh - 108px));
   display: flex;
   flex-direction: column;
-  padding: 18px 24px 20px;
+  padding: clamp(18px, 1.8vw, 30px) clamp(24px, 2.4vw, 40px)
+    clamp(20px, 2vw, 32px);
 }
 .step-nav {
-  margin-bottom: 22px;
-  padding: 8px 10px 0;
+  margin-bottom: clamp(22px, 2vw, 32px);
+  padding: clamp(8px, 0.8vw, 12px) clamp(10px, 1vw, 16px) 0;
   border-radius: 16px 16px 0 0;
   background: #fff5f1;
 }
@@ -18,12 +19,12 @@
 }
 .step-nav li {
   flex: 1;
-  min-height: 38px;
+  min-height: clamp(38px, 3.2vw, 52px);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #7f6963;
-  font-size: 12px;
+  font-size: clamp(14px, 1.15vw, 19px);
   font-weight: 800;
   text-align: center;
 }
@@ -47,24 +48,24 @@
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: clamp(12px, 1.2vw, 20px);
+  margin-bottom: clamp(16px, 1.5vw, 26px);
 }
 .step-heading h1 {
   margin: 0;
-  font-size: 19px;
+  font-size: clamp(20px, 1.7vw, 30px);
 }
 .step-heading p {
   margin: 5px 0 0;
   color: #927c76;
-  font-size: 11px;
+  font-size: clamp(12px, 0.95vw, 16px);
 }
 .step-count {
-  padding: 6px 11px;
+  padding: clamp(6px, 0.6vw, 10px) clamp(11px, 1vw, 16px);
   border-radius: 99px;
   background: #fff1ec;
   color: #8e5148;
-  font-size: 10px;
+  font-size: clamp(11px, 0.85vw, 14px);
   font-weight: 800;
 }
 .option-grid {
@@ -72,7 +73,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-content: start;
-  gap: 14px;
+  gap: clamp(14px, 1.3vw, 22px);
 }
 .option-card {
   position: relative;
@@ -80,7 +81,7 @@
   overflow: hidden;
   padding: 0;
   border: 2px solid transparent;
-  border-radius: 16px;
+  border-radius: clamp(16px, 1.4vw, 22px);
   background: #fff;
   text-align: left;
   box-shadow: 0 3px 8px rgba(95, 54, 42, 0.08);
@@ -102,14 +103,14 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: clamp(12px, 1.1vw, 18px);
   background: #fff1ec;
 }
 .option-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
+  padding: clamp(6px, 0.7vw, 12px);
 }
 .scoop-art {
   position: relative;
@@ -154,77 +155,92 @@
 }
 .empty-art {
   color: #a48a83;
-  font-size: 11px;
+  font-size: clamp(11px, 0.9vw, 15px);
   font-weight: 700;
 }
 .option-name {
-  min-height: 42px;
+  min-height: clamp(48px, 4.2vw, 66px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 6px;
-  padding: 8px 9px;
-  font-size: 10px;
+  gap: clamp(6px, 0.6vw, 10px);
+  padding: clamp(9px, 0.9vw, 14px) clamp(10px, 1vw, 15px);
+  font-size: clamp(12px, 1vw, 16px);
   font-weight: 700;
   line-height: 1.3;
 }
 .option-price {
   align-self: end;
   color: #927c76;
-  font-size: 9px;
+  font-size: clamp(11px, 0.85vw, 14px);
   font-weight: 500;
 }
 .selected-check {
   position: absolute;
   z-index: 2;
-  top: 7px;
-  right: 7px;
-  width: 20px;
-  height: 20px;
+  top: clamp(7px, 0.7vw, 10px);
+  right: clamp(7px, 0.7vw, 10px);
+  width: clamp(22px, 1.9vw, 30px);
+  height: clamp(22px, 1.9vw, 30px);
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: #f45b82;
   color: #fff;
-  font-size: 12px;
+  font-size: clamp(13px, 1.1vw, 18px);
   font-weight: 800;
 }
 .build-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: 16px;
-  padding-top: 12px;
+  gap: clamp(12px, 1.2vw, 20px);
+  margin-top: clamp(16px, 1.5vw, 26px);
+  padding-top: clamp(12px, 1.2vw, 20px);
   border-top: 1px solid #f4e8e4;
 }
 .muted-label {
   display: block;
   margin-bottom: 3px;
   color: #8f7770;
-  font-size: 10px;
+  font-size: clamp(11px, 0.9vw, 15px);
 }
 .build-footer strong {
-  font-size: 17px;
+  font-size: clamp(18px, 1.6vw, 26px);
 }
-@media (min-width: 700px) {
-  .build-panel {
-    padding: 22px 30px 24px;
-  }
+@media (min-height: 1600px) {
   .step-nav li {
-    min-height: 42px;
+    min-height: 48px;
+    font-size: 17px;
+  }
+  .step-heading h1 {
+    font-size: 27px;
+  }
+  .step-heading p {
+    font-size: 15px;
+  }
+  .step-count {
     font-size: 13px;
   }
-  .option-grid {
-    gap: 16px;
+  .option-art {
+    aspect-ratio: 1.3 / 1;
   }
   .option-name {
-    min-height: 54px;
-    padding: 9px 11px;
-    font-size: 12px;
+    min-height: 62px;
+    font-size: 15px;
   }
   .option-price {
-    font-size: 10px;
+    font-size: 13px;
+  }
+  .build-footer strong {
+    font-size: 24px;
+  }
+  .muted-label {
+    font-size: 14px;
+  }
+  .build-footer .primary-button {
+    min-height: 56px;
+    font-size: 18px;
   }
 }
 @media (max-width: 480px) {
@@ -277,5 +293,60 @@
     min-height: 43px;
     padding: 10px 15px;
     font-size: 11px;
+  }
+}
+@media (min-width: 700px) and (max-height: 1150px) {
+  .build-panel {
+    padding: 18px 24px 20px;
+  }
+  .step-nav {
+    margin-bottom: 18px;
+    padding: 6px 10px 0;
+  }
+  .step-nav li {
+    min-height: 40px;
+    font-size: 13px;
+  }
+  .step-heading {
+    margin-bottom: 14px;
+  }
+  .step-heading h1 {
+    font-size: 21px;
+  }
+  .step-heading p {
+    font-size: 12px;
+  }
+  .step-count {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+  .option-grid {
+    gap: 12px;
+  }
+  .option-art {
+    aspect-ratio: 1.85 / 1;
+  }
+  .option-name {
+    min-height: 46px;
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+  .option-price {
+    font-size: 10px;
+  }
+  .build-footer {
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+  .muted-label {
+    font-size: 10px;
+  }
+  .build-footer strong {
+    font-size: 18px;
+  }
+  .build-footer .primary-button {
+    min-height: 46px;
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }

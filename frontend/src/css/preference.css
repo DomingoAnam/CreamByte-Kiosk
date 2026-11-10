@@ -3,15 +3,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 36px 24px;
+  padding: clamp(36px, 3.4vw, 56px) clamp(24px, 2.4vw, 40px);
 }
 .preference-mascot {
   position: relative;
-  width: min(55vw, 300px);
+  width: min(46vw, clamp(300px, 30vw, 420px));
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  margin-bottom: 8px;
+  margin-bottom: clamp(8px, 0.8vw, 14px);
 }
 .preference-mascot::before {
   position: absolute;
@@ -24,24 +24,24 @@
   width: 100%;
 }
 .greeting {
-  margin: 0 0 14px;
-  padding: 8px 15px;
+  margin: 0 0 clamp(14px, 1.4vw, 22px);
+  padding: clamp(8px, 0.8vw, 12px) clamp(15px, 1.4vw, 22px);
   border-radius: 99px;
   background: #fff4f1;
   color: #77564e;
-  font-size: 12px;
+  font-size: clamp(13px, 1vw, 17px);
   font-weight: 700;
 }
 .preference-content {
-  width: min(100%, 470px);
+  width: min(100%, clamp(470px, 46vw, 640px));
 }
 .preference-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-size: 12px;
+  gap: clamp(10px, 1vw, 16px);
+  margin-bottom: clamp(16px, 1.5vw, 24px);
+  font-size: clamp(13px, 1.1vw, 17px);
   font-weight: 800;
   letter-spacing: 0.02em;
 }
@@ -51,25 +51,25 @@
 }
 .preference-heading span {
   color: #b0284b;
-  font-size: 11px;
+  font-size: clamp(12px, 0.95vw, 15px);
   font-weight: 500;
 }
 .preference-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: clamp(16px, 1.6vw, 26px);
 }
 .preference-card {
-  min-height: 108px;
+  min-height: clamp(116px, 10vw, 160px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 11px;
+  gap: clamp(11px, 1vw, 16px);
   border: 0;
-  border-radius: 18px;
+  border-radius: clamp(18px, 1.6vw, 24px);
   background: #fff1ec;
-  font-size: 13px;
+  font-size: clamp(14px, 1.2vw, 20px);
   font-weight: 700;
   transition:
     transform 0.16s ease,
@@ -82,7 +82,7 @@
 .preference-card img,
 .preference-icon {
   width: auto;
-  height: 32px;
+  height: clamp(36px, 3vw, 52px);
   object-fit: contain;
 }
 @media (max-width: 480px) {
@@ -105,5 +105,38 @@
     min-height: 88px;
     border-radius: 15px;
     font-size: 11px;
+  }
+}
+@media (min-height: 1600px) {
+  .preference-panel {
+    padding: 44px 40px;
+  }
+  .preference-mascot {
+    width: min(46vw, 470px);
+    margin-bottom: 16px;
+  }
+  .greeting {
+    font-size: 17px;
+  }
+  .preference-content {
+    width: min(100%, 700px);
+  }
+  .preference-heading {
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+  .preference-heading span {
+    font-size: 15px;
+  }
+  .preference-options {
+    gap: 26px;
+  }
+  .preference-card {
+    min-height: 160px;
+    font-size: 18px;
+  }
+  .preference-card img,
+  .preference-icon {
+    height: 58px;
   }
 }

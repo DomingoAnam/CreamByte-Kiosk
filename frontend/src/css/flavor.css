@@ -2,7 +2,7 @@
   flex: 1;
   display: grid;
   align-content: start;
-  gap: 20px;
+  gap: clamp(20px, 2vw, 32px);
 }
 .flavor-groups section {
   min-width: 0;
@@ -10,12 +10,12 @@
 .group-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: clamp(10px, 1vw, 16px);
+  margin-bottom: clamp(10px, 1vw, 16px);
 }
 .group-title h2 {
   margin: 0;
-  font-size: 12px;
+  font-size: clamp(14px, 1.2vw, 20px);
   font-weight: 700;
 }
 .group-title::after {
@@ -25,18 +25,7 @@
   content: "";
 }
 .flavor-groups .option-grid {
-  gap: 10px;
-}
-@media (min-width: 700px) {
-  .flavor-groups {
-    gap: 25px;
-  }
-  .flavor-groups .option-grid {
-    gap: 15px;
-  }
-  .group-title h2 {
-    font-size: 14px;
-  }
+  gap: clamp(10px, 1vw, 18px);
 }
 @media (max-width: 480px) {
   .flavor-groups {
@@ -50,5 +39,19 @@
   }
   .group-title h2 {
     font-size: 10px;
+  }
+}
+@media (min-width: 700px) and (max-height: 1150px) {
+  .flavor-groups {
+    gap: 18px;
+  }
+  .group-title {
+    margin-bottom: 8px;
+  }
+  .group-title h2 {
+    font-size: 13px;
+  }
+  .flavor-groups .option-grid {
+    gap: 10px;
   }
 }

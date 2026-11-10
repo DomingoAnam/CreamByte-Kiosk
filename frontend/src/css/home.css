@@ -3,22 +3,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 48px;
+  padding: clamp(30px, 3.4vw, 56px) clamp(48px, 5vw, 88px);
 }
 .mascot-wrap {
   position: relative;
   flex: 1 1 auto;
-  width: min(100%, 520px);
-  min-height: 250px;
+  width: min(100%, clamp(520px, 48vw, 680px));
+  min-height: clamp(250px, 26vh, 380px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .hero-mascot {
-  width: min(100%, 460px);
+  width: min(100%, clamp(460px, 42vw, 580px));
 }
 .home-content {
-  width: min(100%, 470px);
+  width: min(100%, clamp(470px, 44vw, 620px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,40 +26,29 @@
 }
 .home-content h1 {
   margin: 0;
-  font-size: clamp(23px, 3.2vw, 31px);
+  font-size: clamp(26px, 3vw, 44px);
   font-weight: 800;
   letter-spacing: -0.04em;
 }
 .home-content > p:not(.member-welcome) {
   margin: 9px 0 0;
   color: #8f7770;
-  font-size: 13px;
+  font-size: clamp(14px, 1.05vw, 18px);
 }
 .home-content .primary-button {
-  margin-top: 28px;
+  margin-top: clamp(28px, 3vw, 44px);
 }
 .home-content .secondary-button {
-  margin-top: 12px;
+  margin-top: clamp(12px, 1.2vw, 18px);
 }
 .member-welcome {
-  margin: 14px 0 0;
-  padding: 9px 14px;
+  margin: clamp(14px, 1.4vw, 22px) 0 0;
+  padding: clamp(9px, 0.9vw, 14px) clamp(14px, 1.3vw, 20px);
   border-radius: 99px;
   background: #fff4f1;
   color: #77564e;
-  font-size: 11px;
+  font-size: clamp(12px, 0.95vw, 16px);
   font-weight: 700;
-}
-@media (min-width: 700px) {
-  .home-panel {
-    padding: 38px 56px;
-  }
-  .mascot-wrap {
-    width: min(100%, 560px);
-  }
-  .hero-mascot {
-    width: min(100%, 500px);
-  }
 }
 @media (max-width: 480px) {
   .home-panel {
@@ -79,5 +68,56 @@
   }
   .home-content .primary-button {
     margin-top: 22px;
+  }
+}
+@media (min-width: 700px) and (max-height: 1150px) {
+  .home-panel {
+    padding: 24px 48px;
+  }
+  .mascot-wrap {
+    width: min(100%, 460px);
+    min-height: 200px;
+  }
+  .hero-mascot {
+    width: min(100%, 420px);
+  }
+  .home-content h1 {
+    font-size: 30px;
+  }
+  .home-content > p:not(.member-welcome) {
+    font-size: 14px;
+  }
+  .home-content .primary-button {
+    margin-top: 22px;
+  }
+  .home-content .secondary-button {
+    margin-top: 10px;
+  }
+}
+@media (min-height: 1600px) {
+  .home-panel {
+    padding: 40px 64px;
+  }
+  .mascot-wrap {
+    width: min(100%, 640px);
+    min-height: 420px;
+  }
+  .hero-mascot {
+    width: min(100%, 580px);
+  }
+  .home-content {
+    width: min(100%, 640px);
+  }
+  .home-content h1 {
+    font-size: 42px;
+  }
+  .home-content > p:not(.member-welcome) {
+    font-size: 18px;
+  }
+  .home-content .primary-button {
+    margin-top: 34px;
+  }
+  .member-welcome {
+    font-size: 15px;
   }
 }
