@@ -1,0 +1,109 @@
+.preference-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 24px;
+}
+.preference-mascot {
+  position: relative;
+  width: min(55vw, 300px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  margin-bottom: 8px;
+}
+.preference-mascot::before {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe4e7 0%, #fff8f5 58%, transparent 75%);
+  content: "";
+}
+.preference-mascot img {
+  width: 100%;
+}
+.greeting {
+  margin: 0 0 14px;
+  padding: 8px 15px;
+  border-radius: 99px;
+  background: #fff4f1;
+  color: #77564e;
+  font-size: 12px;
+  font-weight: 700;
+}
+.preference-content {
+  width: min(100%, 470px);
+}
+.preference-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.preference-heading h1 {
+  margin: 0;
+  font-size: inherit;
+}
+.preference-heading span {
+  color: #b0284b;
+  font-size: 11px;
+  font-weight: 500;
+}
+.preference-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.preference-card {
+  min-height: 108px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  border: 0;
+  border-radius: 18px;
+  background: #fff1ec;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease;
+}
+.preference-card:hover {
+  transform: translateY(-2px);
+  background: #ffe6df;
+}
+.preference-card img,
+.preference-icon {
+  width: auto;
+  height: 32px;
+  object-fit: contain;
+}
+@media (max-width: 480px) {
+  .preference-panel {
+    padding: 22px 18px;
+  }
+  .preference-mascot {
+    width: min(57vw, 230px);
+  }
+  .preference-heading {
+    font-size: 10px;
+  }
+  .preference-heading span {
+    font-size: 9px;
+  }
+  .preference-options {
+    gap: 11px;
+  }
+  .preference-card {
+    min-height: 88px;
+    border-radius: 15px;
+    font-size: 11px;
+  }
+}

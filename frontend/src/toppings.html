@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff1ec" />
+    <title>Choose toppings · CreamByte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/frontend/src/css/base.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/frontend/src/assets/creambyte-logo.png"
+    />
+    <link rel="stylesheet" href="/frontend/src/styles.css" />
+    <link rel="stylesheet" href="/frontend/src/css/customize.css" />
+    <link rel="stylesheet" href="/frontend/src/css/toppings.css" />
+    <script src="/frontend/src/app.js" defer></script>
+  </head>
+  <body data-page="toppings">
+    <header class="topbar">
+      <a class="brand-link" href="/frontend/src/" aria-label="CreamByte home"
+        ><img
+          class="brand-mark"
+          src="/frontend/src/assets/creambyte-logo.png"
+          alt="CreamByte" /></a
+      ><span class="language-pill"
+        ><img
+          class="language-icon"
+          src="/frontend/src/assets/Globe.svg"
+          alt="" />English<img
+          class="language-caret"
+          src="/frontend/src/assets/Dropdown.svg"
+          alt=""
+      /></span>
+    </header>
+    <main class="kiosk-main">
+      <section class="panel build-panel" data-step="Toppings">
+        <a
+          class="back-button"
+          href="/frontend/src/size.html"
+          aria-label="Go back"
+          ><img src="/frontend/src/assets/Back Button.svg" alt=""
+        /></a>
+        <nav class="step-nav" aria-label="Dessert customization steps">
+          <ol>
+            <li>Flavor</li>
+            <li>Size</li>
+            <li aria-current="step">Toppings</li>
+            <li>Sauce</li>
+            <li>Extra</li>
+          </ol>
+          <div class="progress-track"><span style="width: 60%"></span></div>
+        </nav>
+        <div class="step-heading">
+          <div>
+            <h1>Choose your toppings</h1>
+            <p>Add a little crunch or sweetness</p>
+          </div>
+          <span class="step-count">3 / 5</span>
+        </div>
+        <div class="option-grid" id="option-grid" data-options="Toppings"></div>
+        <div class="build-footer">
+          <div>
+            <span class="muted-label">Current total</span
+            ><strong id="draft-total">₱0.00</strong>
+          </div>
+          <button class="primary-button" id="continue-step" type="button">
+            Continue <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

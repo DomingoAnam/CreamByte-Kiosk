@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff1ec" />
+    <title>Create an account · CreamByte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/frontend/src/css/base.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/frontend/src/assets/creambyte-logo.png"
+    />
+    <link rel="stylesheet" href="/frontend/src/styles.css" />
+    <link rel="stylesheet" href="/frontend/src/css/register.css" />
+    <script src="/frontend/src/app.js" defer></script>
+  </head>
+  <body data-page="register">
+    <header class="topbar">
+      <a class="brand-link" href="/frontend/src/" aria-label="CreamByte home"
+        ><img
+          class="brand-mark"
+          src="/frontend/src/assets/creambyte-logo.png"
+          alt="CreamByte" /></a
+      ><span class="language-pill"
+        ><img
+          class="language-icon"
+          src="/frontend/src/assets/Globe.svg"
+          alt="" />English<img
+          class="language-caret"
+          src="/frontend/src/assets/Dropdown.svg"
+          alt=""
+      /></span>
+    </header>
+    <main class="kiosk-main">
+      <section class="panel form-panel">
+        <a class="back-button" href="/frontend/src/" aria-label="Go back"
+          ><img src="/frontend/src/assets/Back Button.svg" alt=""
+        /></a>
+        <img
+          class="form-icon"
+          src="/frontend/src/assets/CreamByte%20Bunny%20Mascot.svg"
+          alt="CreamByte mascot"
+        />
+        <h1>Join CreamByte Rewards</h1>
+        <p class="panel-intro">
+          Create an account to collect points with your purchases.
+        </p>
+        <form class="member-form" id="member-form">
+          <label
+            ><span class="field-label"
+              ><img
+                class="field-icon"
+                src="/frontend/src/assets/ID Icon.svg"
+                alt=""
+              />Member ID</span
+            ><input
+              id="member-id"
+              name="memberId"
+              type="text"
+              inputmode="numeric"
+              autocomplete="username"
+              pattern="[0-9]{6}"
+              maxlength="6"
+              placeholder="Enter your 6-digit ID"
+              required /></label
+          ><label
+            >Name<input
+              id="member-name"
+              name="name"
+              type="text"
+              autocomplete="name"
+              maxlength="60"
+              placeholder="Your name"
+              required /></label
+          ><label
+            >Password<input
+              id="member-password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              placeholder="At least 8 characters"
+              required
+          /></label>
+          <p class="form-note">
+            Your member ID, name, and points are saved on this kiosk. Your
+            password is not stored.
+          </p>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <button class="primary-button full-width" type="submit">
+            Continue <span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

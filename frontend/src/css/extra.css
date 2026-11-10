@@ -1,0 +1,11 @@
+.build-panel[data-step="Extra"] .option-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.build-panel[data-step="Extra"] .option-card {
+  align-self: start;
+}
+@media (max-width: 480px) {
+  .build-panel[data-step="Extra"] .option-grid {
+    gap: 8px;
+  }
+}

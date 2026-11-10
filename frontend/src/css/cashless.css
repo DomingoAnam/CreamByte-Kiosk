@@ -1,0 +1,111 @@
+.cashless-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+}
+.cashless-panel > h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+.cashless-options {
+  width: min(100%, 560px);
+  display: grid;
+  gap: 12px;
+  margin: 38px auto;
+}
+.cashless-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #fff;
+  text-align: left;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(54, 15, 2, 0.12);
+}
+.cashless-card:hover {
+  background: #fff8f5;
+}
+.payment-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #ddf8f2;
+  color: #278c7e;
+  font-size: 19px;
+}
+.payment-icon-img {
+  width: 22px;
+  height: 22px;
+}
+.cashless-qr {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.cashless-qr > img {
+  width: min(100%, 220px);
+  height: auto;
+}
+.cashless-qr p {
+  margin: 0;
+  color: #806a64;
+  font-size: 11px;
+  font-weight: 600;
+}
+.qr-badge {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+  vertical-align: -2px;
+}
+.cashless-card strong,
+.cashless-card small {
+  display: block;
+}
+.cashless-card strong {
+  font-size: 12px;
+}
+.cashless-card small {
+  margin-top: 4px;
+  color: #806a64;
+  font-size: 10px;
+}
+.chevron {
+  margin-left: auto;
+  color: #aa8a82;
+  font-size: 20px;
+}
+@media (max-width: 480px) {
+  .cashless-panel {
+    padding: 23px 16px;
+  }
+  .cashless-panel > h1 {
+    font-size: 15px;
+  }
+  .cashless-options {
+    margin-top: 26px;
+  }
+  .cashless-card {
+    gap: 10px;
+    padding: 12px;
+  }
+  .payment-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  .cashless-card strong {
+    font-size: 10px;
+  }
+  .cashless-card small {
+    font-size: 8px;
+  }
+}

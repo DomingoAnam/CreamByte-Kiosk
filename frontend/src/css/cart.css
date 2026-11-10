@@ -1,0 +1,242 @@
+.cart-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cart-content {
+  flex: 1;
+  min-height: 0;
+  padding: 24px 24px 12px;
+}
+.cart-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.cart-heading h1 {
+  margin: 0;
+  font-size: 19px;
+}
+.item-count {
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: #fff1ec;
+  color: #8e5148;
+  font-size: 10px;
+  font-weight: 700;
+}
+.cart-items {
+  display: grid;
+  gap: 12px;
+}
+.cart-item {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 13px;
+  padding: 11px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(95, 54, 42, 0.12);
+}
+.cart-art {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  background: #fff1ec;
+}
+.cart-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+.cart-scoop {
+  width: 62%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow:
+    inset -7px -7px 12px rgba(54, 15, 2, 0.12),
+    inset 5px 4px 8px rgba(255, 255, 255, 0.55);
+}
+.cart-item-main {
+  min-width: 0;
+  padding: 3px 0;
+}
+.cart-item-title {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cart-item-title h2 {
+  overflow: hidden;
+  margin: 0;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cart-item-title strong {
+  flex: 0 0 auto;
+  font-size: 11px;
+}
+.unit-price {
+  margin: 4px 0 0;
+  color: #927c76;
+  font-size: 9px;
+}
+.order-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+  margin: 8px 0;
+  color: #806a64;
+  font-size: 9px;
+}
+.order-details div {
+  min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+.order-details .service-detail {
+  grid-column: 1 / -1;
+}
+.order-details dd {
+  overflow: hidden;
+  margin: 0;
+  color: #5b3c35;
+  font-weight: 600;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 7px;
+  border-top: 1px solid #f4e8e4;
+}
+.quantity-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 7px;
+  border-radius: 99px;
+  background: #faf3f0;
+  font-size: 10px;
+}
+.quantity-control button,
+.remove-item {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+.quantity-control button {
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+}
+.quantity-control button:hover {
+  background: #fff;
+}
+.remove-item {
+  width: 28px;
+  height: 28px;
+  color: #9a7770;
+  font-size: 17px;
+}
+.remove-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.remove-item:hover {
+  background: #fff1ec;
+  color: #b0284b;
+}
+.cart-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 24px 18px;
+}
+.cart-actions-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cart-actions .primary-button,
+.cart-actions .secondary-button {
+  min-height: 44px;
+  padding: 10px 20px;
+  font-size: 12px;
+}
+@media (min-width: 700px) {
+  .cart-item {
+    grid-template-columns: 106px minmax(0, 1fr);
+    gap: 16px;
+    padding: 13px;
+  }
+  .cart-item-title h2 {
+    font-size: 14px;
+  }
+  .cart-item-title strong {
+    font-size: 12px;
+  }
+  .unit-price,
+  .order-details {
+    font-size: 10px;
+  }
+}
+@media (max-width: 480px) {
+  .cart-content {
+    padding: 19px 13px 10px;
+  }
+  .cart-heading h1 {
+    font-size: 16px;
+  }
+  .cart-item {
+    grid-template-columns: 62px minmax(0, 1fr);
+    gap: 9px;
+    padding: 8px;
+  }
+  .cart-item-title h2 {
+    font-size: 10px;
+  }
+  .cart-item-title strong {
+    font-size: 9px;
+  }
+  .unit-price,
+  .order-details {
+    font-size: 8px;
+  }
+  .order-details {
+    gap: 3px 8px;
+  }
+  .cart-item-controls {
+    padding-top: 5px;
+  }
+  .cart-actions {
+    padding: 11px 13px 14px;
+  }
+  .cart-actions,
+  .cart-actions-primary {
+    flex-direction: column;
+    width: 100%;
+  }
+  .cart-actions .primary-button,
+  .cart-actions .secondary-button {
+    width: 100%;
+    min-height: 43px;
+    padding: 10px 15px;
+    font-size: 11px;
+  }
+}

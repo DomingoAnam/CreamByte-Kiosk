@@ -1,0 +1,75 @@
+.payment-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+}
+.payment-panel > h1 {
+  margin: 0;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 800;
+}
+.payment-options {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
+  gap: 22px;
+  padding: 50px 12px;
+}
+.payment-card {
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border: 0;
+  border-radius: 18px;
+  background: #fff1ec;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(54, 15, 2, 0.12);
+  font-size: 13px;
+  font-weight: 700;
+}
+.payment-card:hover {
+  transform: translateY(-2px);
+  background: #ffe8e0;
+}
+.payment-card > span {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  color: #b0284b;
+  font-size: 21px;
+}
+@media (min-width: 700px) {
+  .payment-panel {
+    padding: 34px;
+  }
+}
+@media (max-width: 480px) {
+  .payment-panel {
+    padding: 23px 16px;
+  }
+  .payment-panel > h1 {
+    font-size: 15px;
+  }
+  .payment-options {
+    gap: 10px;
+    padding: 35px 0;
+  }
+  .payment-card {
+    min-height: 130px;
+    padding: 12px;
+    font-size: 10px;
+  }
+  .payment-card > span {
+    width: 36px;
+    height: 36px;
+    font-size: 17px;
+  }
+}

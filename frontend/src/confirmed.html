@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff1ec" />
+    <title>Order confirmed · CreamByte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/frontend/src/css/base.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/frontend/src/assets/creambyte-logo.png"
+    />
+    <link rel="stylesheet" href="/frontend/src/styles.css" />
+    <link rel="stylesheet" href="/frontend/src/css/confirmed.css" />
+    <script src="/frontend/src/app.js" defer></script>
+  </head>
+  <body data-page="confirmed">
+    <header class="topbar">
+      <a class="brand-link" href="/frontend/src/" aria-label="CreamByte home"
+        ><img
+          class="brand-mark"
+          src="/frontend/src/assets/creambyte-logo.png"
+          alt="CreamByte" /></a
+      ><span class="language-pill"
+        ><img
+          class="language-icon"
+          src="/frontend/src/assets/Globe.svg"
+          alt="" />English<img
+          class="language-caret"
+          src="/frontend/src/assets/Dropdown.svg"
+          alt=""
+      /></span>
+    </header>
+    <main class="kiosk-main">
+      <section class="panel confirmation-panel">
+        <div class="confirmation-mascot">
+          <span class="mascot-glow"></span
+          ><img
+            src="/frontend/src/assets/CreamByte%20Bunny%20Mascot.svg"
+            alt="CreamByte bunny mascot"
+          />
+        </div>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your order</p>
+        <div class="order-number" id="order-number"></div>
+        <p class="points-message" id="points-message" hidden></p>
+        <p class="ready-message">
+          We’ll notify you when your order is ready at the counter.
+        </p>
+        <a
+          class="primary-button home-button"
+          href="/frontend/src/"
+          id="back-home"
+          >← Back to Home</a
+        >
+      </section>
+    </main>
+  </body>
+</html>

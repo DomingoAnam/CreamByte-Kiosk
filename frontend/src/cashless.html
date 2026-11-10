@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff1ec" />
+    <title>Cashless payment · CreamByte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/frontend/src/css/base.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/frontend/src/assets/creambyte-logo.png"
+    />
+    <link rel="stylesheet" href="/frontend/src/styles.css" />
+    <link rel="stylesheet" href="/frontend/src/css/cashless.css" />
+    <script src="/frontend/src/app.js" defer></script>
+  </head>
+  <body data-page="cashless">
+    <header class="topbar">
+      <a class="brand-link" href="/frontend/src/" aria-label="CreamByte home"
+        ><img
+          class="brand-mark"
+          src="/frontend/src/assets/creambyte-logo.png"
+          alt="CreamByte" /></a
+      ><span class="language-pill"
+        ><img
+          class="language-icon"
+          src="/frontend/src/assets/Globe.svg"
+          alt="" />English<img
+          class="language-caret"
+          src="/frontend/src/assets/Dropdown.svg"
+          alt=""
+      /></span>
+    </header>
+    <main class="kiosk-main">
+      <section class="panel cashless-panel">
+        <a
+          class="back-button"
+          href="/frontend/src/payment.html"
+          aria-label="Go back"
+          ><img src="/frontend/src/assets/Back Button.svg" alt=""
+        /></a>
+        <h1>Pay here (cashless)</h1>
+        <div class="cashless-options">
+          <a
+            class="cashless-card"
+            href="/frontend/src/confirmed.html"
+            data-complete
+            ><span class="payment-icon"
+              ><img
+                class="payment-icon-img"
+                src="/frontend/src/assets/Debit Card.svg"
+                alt="" /></span
+            ><span
+              ><strong>Credit / Debit Card</strong
+              ><small>Visa, Mastercard, JCB, tap to pay</small></span
+            ><span class="chevron">›</span></a
+          ><a
+            class="cashless-card"
+            href="/frontend/src/confirmed.html"
+            data-complete
+            ><span class="payment-icon"
+              ><img
+                class="payment-icon-img"
+                src="/frontend/src/assets/InstaPay.svg"
+                alt="" /></span
+            ><span><strong>InstaPay</strong><small>Scan QR or tap</small></span
+            ><span class="chevron">›</span></a
+          ><a
+            class="cashless-card"
+            href="/frontend/src/confirmed.html"
+            data-complete
+            ><span class="payment-icon"
+              ><img
+                class="payment-icon-img"
+                src="/frontend/src/assets/Paypal.svg"
+                alt="" /></span
+            ><span
+              ><strong>PayPal</strong
+              ><small>Visa, Mastercard, JCB, tap to pay</small></span
+            ><span class="chevron">›</span></a
+          >
+        </div>
+        <div class="cashless-qr">
+          <img
+            src="/frontend/src/assets/Huge QR.svg"
+            alt="Scan this QR code with your e-wallet app"
+          />
+          <p>
+            <img
+              class="qr-badge"
+              src="/frontend/src/assets/Mini QR.svg"
+              alt=""
+            />Scan with your e-wallet app to pay
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

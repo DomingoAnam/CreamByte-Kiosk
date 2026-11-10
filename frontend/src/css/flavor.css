@@ -1,0 +1,54 @@
+.flavor-groups {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: 20px;
+}
+.flavor-groups section {
+  min-width: 0;
+}
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.group-title h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.group-title::after {
+  height: 1px;
+  flex: 1;
+  background: #7e544a;
+  content: "";
+}
+.flavor-groups .option-grid {
+  gap: 10px;
+}
+@media (min-width: 700px) {
+  .flavor-groups {
+    gap: 25px;
+  }
+  .flavor-groups .option-grid {
+    gap: 15px;
+  }
+  .group-title h2 {
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .flavor-groups {
+    gap: 13px;
+  }
+  .flavor-groups .option-grid {
+    gap: 7px;
+  }
+  .group-title {
+    margin-bottom: 7px;
+  }
+  .group-title h2 {
+    font-size: 10px;
+  }
+}
