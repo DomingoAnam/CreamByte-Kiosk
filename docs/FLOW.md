@@ -33,8 +33,10 @@ creambyte/
 │       └── member.service.js       # Member service (scaffold)
 ├── frontend/                        # Frontend (static kiosk)
 │   ├── src/
-│   │   ├── index.html              # Home / entry page
-│   │   ├── register.html           # Member sign-up
+│   │   ├── attract.html            # Attract / idle screen (featured loop, tap to start)
+│   │   ├── index.html              # Identity gateway (guest / member login / register)
+│   │   ├── login.html              # Member login (on-screen keypad, Member ID + PIN)
+│   │   ├── register.html           # Member sign-up (kiosk-generated Member ID, PIN)
 │   │   ├── preference.html        # Dine-in vs Takeaway
 │   │   ├── flavor.html            # Step 1/5 — flavor
 │   │   ├── size.html               # Step 2/5 — size
@@ -189,7 +191,11 @@ cart   <--(back)-- payment
   activeMember: null,        // member snapshot for this order (null = guest)
   orderComplete: false,
   pointsEarned: 0,
-  nextItemId: 1
+  nextItemId: 1,
+  editingId: null,           // item id being updated via Edit order / per-item Edit
+  redeemedPoints: 0,         // points applied to the current order
+  pendingGuestItems: false, // keep guest cart when redirecting to register
+  justRegistered: false      // show Member ID reminder after self-registration
 }
 ```
 

@@ -288,6 +288,9 @@
       pointsEarned: 0,
       nextItemId: 1,
       editingId: null,
+      redeemedPoints: 0,
+      pendingGuestItems: false,
+      justRegistered: false,
     };
     try {
       const saved = JSON.parse(sessionStorage.getItem(ORDER_KEY) || "null");
@@ -308,6 +311,10 @@
     sessionStorage.setItem(ORDER_KEY, JSON.stringify(state));
   }
 
+  function generateMemberId() {
+    return `MBR-${10000 + Math.floor(Math.random() * 90000)}`;
+  }
+
   function startNewOrder() {
     state.items = [];
     state.draft = EMPTY_SELECTION();
@@ -316,6 +323,8 @@
     state.pointsEarned = 0;
     state.nextItemId = 1;
     state.editingId = null;
+    state.redeemedPoints = 0;
+    state.pendingGuestItems = false;
   }
 
   function go(page) {
@@ -473,6 +482,22 @@
     go("cart.html");
   }
 
+  function startEdit(itemId) {
+    const item = state.items.find((entry) => entry.id === itemId);
+    if (!item) return;
+    state.draft = {
+      Flavor: item.flavor,
+      Size: item.size,
+      Toppings: item.topping,
+      Sauce: item.sauce,
+      Extra: item.extra,
+    };
+    state.editingId = item.id;
+    state.unlockedStep = STEP_PAGES.length - 1;
+    saveOrder();
+    go("flavor.html");
+  }
+
   function appendDetail(container, label, value, step, service = false) {
     const row = document.createElement("div");
     if (service) row.className = "service-detail";
@@ -572,10 +597,48 @@
       list.append(card);
     });
     renderTotals($("#cart-totals"));
+    refreshPointsUi();
     $("#checkout").setAttribute(
       "aria-disabled",
       String(state.items.length === 0),
     );
+  }
+
+  function refreshPointsUi() {
+    const pointsApply = $("#points-apply");
+    const pointsNote = $("#points-note");
+    const applyPoints = $("#apply-points");
+    const guestCreatePoints = $("#guest-create-points");
+    if (!state.items.length) {
+      if (pointsApply) pointsApply.hidden = true;
+      return;
+    }
+    if (state.activeMember) {
+      if (!pointsApply) return;
+      pointsApply.hidden = false;
+      const hasPoints = state.member.points > 0;
+      if (applyPoints) {
+        applyPoints.hidden = !hasPoints;
+        applyPoints.disabled = !hasPoints;
+      }
+      if (guestCreatePoints) guestCreatePoints.hidden = true;
+      if (pointsNote) {
+        pointsNote.textContent = `You have ${state.member.points} points — apply them to lower this order.`;
+      }
+      return;
+    }
+    if (!pointsApply) return;
+    pointsApply.hidden = false;
+    if (applyPoints) applyPoints.hidden = true;
+    if (guestCreatePoints) guestCreatePoints.hidden = false;
+    const earned = Math.floor(
+      (state.items.reduce((sum, item) => sum + item.price * item.quantity, 0) *
+        1.12) /
+        10,
+    );
+    if (pointsNote) {
+      pointsNote.textContent = `Create an account to earn ${earned} points on this order.`;
+    }
   }
 
   function renderTotals(container) {
@@ -583,13 +646,17 @@
       (sum, item) => sum + item.price * item.quantity,
       0,
     );
-    const vat = subtotal * 0.12;
+    const redeemed = Math.min(state.redeemedPoints || 0, subtotal);
+    const discounted = subtotal - redeemed;
+    const vat = discounted * 0.12;
+    const total = discounted + vat;
     container.replaceChildren();
-    [
-      ["Subtotal", money(subtotal), ""],
-      ["VAT (12%)", money(vat), "vat"],
-      ["Total", money(subtotal + vat), "grand"],
-    ].forEach(([label, value, style]) => {
+    const rows = [];
+    if (redeemed > 0) rows.push(["Points", `-${money(redeemed)}`, "points"]);
+    rows.push(["Subtotal", money(subtotal), ""]);
+    rows.push(["VAT (12%)", money(vat), "vat"]);
+    rows.push(["Total", money(total), "grand"]);
+    rows.forEach(([label, value, style]) => {
       const row = document.createElement("div");
       row.className = `total-row ${style}`.trim();
       const name = document.createElement("span");
@@ -603,21 +670,25 @@
 
   function completeOrder() {
     if (!state.items.length) return go("cart.html");
+    const subtotal = state.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+    const redeemed = Math.min(state.redeemedPoints || 0, subtotal);
+    const payable = Math.max(0, subtotal - redeemed);
+    const earned = state.activeMember ? Math.floor((payable * 1.12) / 10) : 0;
+    state.redeemedPoints = redeemed;
     if (state.activeMember) {
-      const subtotal = state.items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0,
-      );
-      state.pointsEarned = Math.floor((subtotal * 1.12) / 10);
       state.member = {
         ...state.activeMember,
-        points: state.activeMember.points + state.pointsEarned,
+        points: state.activeMember.points + earned,
       };
       state.activeMember = state.member;
       localStorage.setItem(MEMBER_KEY, JSON.stringify(state.member));
     } else {
       state.pointsEarned = 0;
     }
+    state.pointsEarned = earned;
     state.orderComplete = true;
     saveOrder();
     go("confirmed.html");
@@ -626,11 +697,39 @@
   function renderConfirmation() {
     $("#order-number").textContent =
       `# ${Math.floor(10000 + Math.random() * 90000)}`;
+    const subtotal = state.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+    const redeemed = Math.min(state.redeemedPoints || 0, subtotal);
+    const payable = Math.max(0, subtotal - redeemed);
+    const earned = state.pointsEarned
+      ? state.pointsEarned
+      : state.activeMember
+        ? Math.floor((payable * 1.12) / 10)
+        : 0;
+    const used = $("#points-used");
+    const earnedEl = $("#points-earned");
+    const balance = $("#points-balance");
     const message = $("#points-message");
-    message.hidden = !state.activeMember;
-    message.textContent = state.activeMember
-      ? `+${state.pointsEarned} points earned · ${state.member.points} points total`
-      : "";
+    if (state.activeMember) {
+      const newBalance = state.member.points + earned;
+      state.member = { ...state.member, points: newBalance };
+      state.activeMember = state.member;
+      state.pointsEarned = earned;
+      localStorage.setItem(MEMBER_KEY, JSON.stringify(state.member));
+      used.hidden = redeemed <= 0;
+      used.textContent = redeemed > 0 ? `Points used: ${redeemed}` : "";
+      earnedEl.textContent = `+${earned} points earned`;
+      balance.textContent = `New balance: ${newBalance} points`;
+      message.hidden = false;
+      message.textContent = `+${earned} points earned · ${newBalance} points total`;
+    } else {
+      used.hidden = true;
+      earnedEl.textContent = "";
+      balance.textContent = "";
+      message.hidden = true;
+    }
   }
 
   function redirectForStep() {
@@ -642,6 +741,42 @@
       return true;
     }
     return false;
+  }
+
+  /* ---------- Attract / idle screen ---------- */
+  if (PAGE === "attract") {
+    const mascot = $("#attract-mascot");
+    const title = $("#attract-title");
+    const FEATURED = [
+      "Choco-Straw Twirl",
+      "Watermelon",
+      "Winter Cane",
+      "Banana Caramel",
+    ];
+    const applyFeatured = (name) => {
+      const option = OPTIONS.Flavor.find((entry) => entry.name === name);
+      if (option) mascot.src = ASSET_PATH(option.image);
+      if (title) title.textContent = name;
+    };
+    applyFeatured(FEATURED[0]);
+    let started = false;
+    const startAttraction = () => {
+      if (started) return;
+      started = true;
+      go("index.html");
+    };
+    $("#attract-start").addEventListener("click", (event) => {
+      event.preventDefault();
+      startAttraction();
+    });
+    document.addEventListener(
+      "pointerdown",
+      (event) => {
+        if (event.target.closest("#attract-start")) return;
+        startAttraction();
+      },
+      { passive: true },
+    );
   }
 
   if (["flavor", "size", "toppings", "sauce", "extra"].includes(PAGE)) {
@@ -657,35 +792,34 @@
   }
 
   if (PAGE === "home") {
-    const welcome = $("#member-welcome");
-    if (state.member) {
-      welcome.hidden = false;
-      welcome.textContent = `Saved profile · ${state.member.name} · ${state.member.points} points`;
-    }
     $("#guest-start").addEventListener("click", () => {
       state.activeMember = null;
       startNewOrder();
       go("preference.html");
     });
+    $("#member-login").addEventListener("click", () => {
+      go("login.html");
+    });
   }
 
   if (PAGE === "register") {
-    $("#member-id").value = state.member?.id || "";
+    $("#member-id").value = state.member?.id || generateMemberId();
     $("#member-name").value = state.member?.name || "";
     $("#member-id").addEventListener("input", (event) => {
       event.currentTarget.value = event.currentTarget.value
-        .replace(/\D/g, "")
-        .slice(0, 6);
+        .replace(/[^A-Z0-9-]/g, "")
+        .slice(0, 12)
+        .toUpperCase();
     });
     $("#member-form").addEventListener("submit", (event) => {
       event.preventDefault();
-      const id = $("#member-id").value.trim();
+      const id = $("#member-id").value.trim().toUpperCase();
       const name = $("#member-name").value.trim();
-      const password = $("#member-password").value;
-      if (!/^\d{6}$/.test(id) || !name || password.length < 8) {
+      const pin = $("#member-pin").value.trim();
+      if (!/^MBR-\d{5}$/.test(id) || !name || !/^[0-9]{4,6}$/.test(pin)) {
         const error = $("#form-error");
         error.textContent =
-          "Enter a 6-digit ID, your name, and a password with at least 8 characters.";
+          "Enter a valid Member ID, your name, and a 4–6 digit PIN.";
         error.hidden = false;
         return;
       }
@@ -693,13 +827,19 @@
         id,
         name,
         points: state.member?.id === id ? state.member.points : 0,
+        pin,
       };
       state.activeMember = state.member;
-      startNewOrder();
-      $("#member-password").value = "";
+      state.justRegistered = true;
+      if (!state.pendingGuestItems) startNewOrder();
+      state.pendingGuestItems = false;
+      state.draft = EMPTY_SELECTION();
+      state.unlockedStep = 0;
+      state.editingId = null;
+      state.redeemedPoints = 0;
       saveOrder();
       localStorage.setItem(MEMBER_KEY, JSON.stringify(state.member));
-      go("preference.html");
+      go("login.html");
     });
   }
 
@@ -707,7 +847,9 @@
     const greeting = $("#preference-greeting");
     greeting.hidden = !state.activeMember;
     greeting.textContent = state.activeMember
-      ? `Hi, ${state.activeMember.name}!`
+      ? state.justRegistered
+        ? `Hi, ${state.activeMember.name}! Your member ID is ${state.activeMember.id}. Save or take a photo of it for next time.`
+        : `Hi, ${state.activeMember.name}!`
       : "";
     document.querySelectorAll("[data-order-type]").forEach((button) =>
       button.addEventListener("click", () => {
@@ -731,22 +873,118 @@
       state.unlockedStep = 0;
       saveOrder();
     });
-    $("#edit-order").addEventListener("click", () => {
+    $("#edit-order").addEventListener("click", (event) => {
+      event.preventDefault();
       const item = state.items[state.items.length - 1];
       if (!item) return;
-      state.draft = {
-        Flavor: item.flavor,
-        Size: item.size,
-        Toppings: item.topping,
-        Sauce: item.sauce,
-        Extra: item.extra,
-      };
-      state.editingId = item.id;
-      state.unlockedStep = STEP_PAGES.length - 1;
-      saveOrder();
+      startEdit(item.id);
     });
     $("#checkout").addEventListener("click", (event) => {
-      if (!state.items.length) event.preventDefault();
+      if (!state.items.length) {
+        event.preventDefault();
+        return;
+      }
+      const subtotal = state.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+      const payable = subtotal - Math.min(state.redeemedPoints || 0, subtotal);
+      if (state.activeMember && payable <= 0) {
+        event.preventDefault();
+        completeOrder();
+        return;
+      }
+      event.preventDefault();
+      go("payment.html");
+    });
+  }
+
+  if (PAGE === "login") {
+    const keypadDisplay = $("#keypad-display");
+    const keypadGrid = $("#keypad-grid");
+    const keypadLogin = $("#keypad-login");
+    const formError = $("#form-error");
+    let entry = "";
+    let stage = "id";
+    let memberId = "";
+
+    const normalizeId = (value) =>
+      String(value || "")
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "");
+
+    const renderDisplay = () => {
+      keypadDisplay.textContent =
+        stage === "id" ? `MBR - ${entry}` : `PIN · ${entry || "...."}`;
+    };
+    renderDisplay();
+    keypadGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-key]");
+      if (!button) return;
+      const key = button.dataset.key;
+      if (key === "back") {
+        entry = entry.slice(0, -1);
+        renderDisplay();
+        return;
+      }
+      if (key === "") return;
+      if (stage === "id") {
+        if (/^[0-9]$/.test(key)) {
+          entry += key;
+          if (entry.length >= 5) {
+            memberId = entry;
+            stage = "pin";
+            entry = "";
+          }
+        }
+        renderDisplay();
+        return;
+      }
+      if (/^[0-9]$/.test(key)) entry += key;
+      renderDisplay();
+    });
+    keypadLogin.addEventListener("click", () => {
+      if (stage !== "pin") {
+        formError.textContent = "Enter your Member ID first.";
+        formError.hidden = false;
+        return;
+      }
+      const pin = entry;
+      if (pin.length < 4) {
+        formError.textContent = "Enter your 4–6 digit PIN.";
+        formError.hidden = false;
+        return;
+      }
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(MEMBER_KEY) || "null");
+      } catch {
+        saved = null;
+      }
+      const fullId = `MBR-${memberId}`;
+      const member =
+        saved && normalizeId(saved.id) === normalizeId(fullId) ? saved : null;
+      if (!member) {
+        formError.textContent = "No member found for that ID.";
+        formError.hidden = false;
+        return;
+      }
+      if (member.pin !== pin) {
+        formError.textContent = "Incorrect PIN. Please try again.";
+        formError.hidden = false;
+        return;
+      }
+      state.member = {
+        id: member.id,
+        name: member.name,
+        points: member.points,
+        pin: member.pin,
+      };
+      state.activeMember = state.member;
+      state.justRegistered = false;
+      startNewOrder();
+      saveOrder();
+      go("preference.html");
     });
   }
 
@@ -780,6 +1018,12 @@
       startNewOrder();
       saveOrder();
     });
+    $("#done").addEventListener("click", () => {
+      state.activeMember = null;
+      startNewOrder();
+      saveOrder();
+      go("index.html");
+    });
   }
 
   document.querySelectorAll("[data-back], .back-button").forEach((link) =>
@@ -789,6 +1033,7 @@
       if (index >= 0)
         go(index === 0 ? "preference.html" : `${STEP_PAGES[index - 1]}.html`);
       else if (PAGE === "register" || PAGE === "preference") go("index.html");
+      else if (PAGE === "login") go("index.html");
       else if (PAGE === "cart") go("preference.html");
       else if (PAGE === "payment") go("cart.html");
       else if (PAGE === "cashless") go("payment.html");

@@ -19,7 +19,6 @@
     />
     <link rel="stylesheet" href="/frontend/src/styles.css" />
     <link rel="stylesheet" href="/frontend/src/css/cart.css" />
-    <script src="/frontend/src/app.js" defer></script>
   </head>
   <body data-page="cart">
     <header class="topbar">
@@ -47,6 +46,21 @@
           </div>
           <div class="cart-items" id="cart-items"></div>
         </div>
+        <div class="points-apply" id="points-apply" hidden>
+          <p class="points-note" id="points-note"></p>
+          <div class="points-apply-actions">
+            <button class="secondary-button" id="apply-points" type="button">
+              Apply points
+            </button>
+            <button
+              class="secondary-button"
+              id="guest-create-points"
+              type="button"
+            >
+              Create account to earn points
+            </button>
+          </div>
+        </div>
         <div class="totals" id="cart-totals"></div>
         <div class="cart-actions">
           <a
@@ -73,4 +87,5 @@
       </section>
     </main>
   </body>
+  <script src="/frontend/src/app.js"></script>
 </html>

@@ -36,15 +36,18 @@
   transform: translateY(-2px);
   background: #ffe8e0;
 }
-.payment-card > span {
+.payment-card-icon {
   width: clamp(45px, 4.2vw, 66px);
   height: clamp(45px, 4.2vw, 66px);
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: #fff;
-  color: #b0284b;
-  font-size: clamp(21px, 2vw, 30px);
+}
+.payment-card-icon img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
 }
 @media (max-width: 480px) {
   .payment-panel {
@@ -62,9 +65,12 @@
     padding: 12px;
     font-size: 10px;
   }
-  .payment-card > span {
+  .payment-card-icon {
     width: 36px;
     height: 36px;
-    font-size: 17px;
+  }
+  .payment-card-icon img {
+    width: 60%;
+    height: 60%;
   }
 }

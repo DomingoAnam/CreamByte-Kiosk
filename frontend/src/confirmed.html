@@ -19,7 +19,6 @@
     />
     <link rel="stylesheet" href="/frontend/src/styles.css" />
     <link rel="stylesheet" href="/frontend/src/css/confirmed.css" />
-    <script src="/frontend/src/app.js" defer></script>
   </head>
   <body data-page="confirmed">
     <header class="topbar">
@@ -50,6 +49,11 @@
         <h1>Order Confirmed!</h1>
         <p>Thank you for your order</p>
         <div class="order-number" id="order-number"></div>
+        <div class="points-summary" id="points-summary">
+          <p class="points-used" id="points-used"></p>
+          <p class="points-earned" id="points-earned"></p>
+          <p class="points-balance" id="points-balance"></p>
+        </div>
         <p class="points-message" id="points-message" hidden></p>
         <p class="ready-message">
           We’ll notify you when your order is ready at the counter.
@@ -60,7 +64,15 @@
           id="back-home"
           >← Back to Home</a
         >
+        <button
+          class="primary-button full-width home-button"
+          id="done"
+          type="button"
+        >
+          Done
+        </button>
       </section>
     </main>
   </body>
+  <script src="/frontend/src/app.js"></script>
 </html>

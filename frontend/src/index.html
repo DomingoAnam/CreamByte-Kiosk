@@ -19,7 +19,6 @@
     />
     <link rel="stylesheet" href="/frontend/src/styles.css" />
     <link rel="stylesheet" href="/frontend/src/css/home.css" />
-    <script src="/frontend/src/app.js" defer></script>
   </head>
   <body data-page="home">
     <header class="topbar">
@@ -51,13 +50,18 @@
         <div class="home-content">
           <h1>A little scoop of happy</h1>
           <p>Make your CreamByte moment.</p>
-          <p class="member-welcome" id="member-welcome" hidden></p>
           <button
             class="primary-button full-width"
             id="guest-start"
             type="button"
           >
             Order as guest <span aria-hidden="true">→</span></button
+          ><button
+            class="secondary-button full-width"
+            id="member-login"
+            type="button"
+          >
+            Member login</button
           ><a
             class="secondary-button full-width"
             href="/frontend/src/register.html"
@@ -67,4 +71,5 @@
       </section>
     </main>
   </body>
+  <script src="/frontend/src/app.js"></script>
 </html>

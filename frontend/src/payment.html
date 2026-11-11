@@ -19,7 +19,6 @@
     />
     <link rel="stylesheet" href="/frontend/src/styles.css" />
     <link rel="stylesheet" href="/frontend/src/css/payment.css" />
-    <script src="/frontend/src/app.js" defer></script>
   </head>
   <body data-page="payment">
     <header class="topbar">
@@ -52,16 +51,23 @@
             class="payment-card"
             href="/frontend/src/confirmed.html"
             data-pay="counter"
-            ><span aria-hidden="true">₱</span>Pay at the counter</a
+            ><span class="payment-card-icon" aria-hidden="true"
+              ><img
+                src="/frontend/src/assets/Counter%20Payment.svg"
+                alt="" /></span
+            >Pay at the counter</a
           ><a
             class="payment-card"
             href="/frontend/src/cashless.html"
             data-pay="cashless"
-            ><span aria-hidden="true">▣</span>Pay here (cashless)</a
+            ><span class="payment-card-icon" aria-hidden="true"
+              ><img src="/frontend/src/assets/Mini%20QR.svg" alt="" /></span
+            >Pay here (cashless)</a
           >
         </div>
         <div class="totals" id="payment-totals"></div>
       </section>
     </main>
   </body>
+  <script src="/frontend/src/app.js"></script>
 </html>
