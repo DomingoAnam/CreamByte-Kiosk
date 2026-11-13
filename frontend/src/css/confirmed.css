@@ -100,12 +100,30 @@
     padding: 10px;
     font-size: 11px;
   }
-  .home-button {
-    margin-top: 12px;
+  .confirmation-actions .home-button {
+    flex: 1 1 140px;
   }
 }
-.home-button {
+.confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 1.2vw, 20px);
+  justify-content: center;
+  width: min(100%, clamp(460px, 44vw, 620px));
   margin-top: clamp(20px, 1.8vw, 30px);
+}
+.home-button {
+  flex: 1 1 200px;
+}
+#back-home {
+  background: transparent;
+  border: 1px solid #f45b82;
+  color: #b0284b;
+  box-shadow: none;
+}
+#back-home:hover {
+  background: transparent;
+  transform: none;
 }
 @media (max-width: 480px) {
   .confirmation-panel {

@@ -258,6 +258,90 @@
   });
   const $ = (selector) => document.querySelector(selector);
   const money = (value) => `₱${Number(value).toFixed(2)}`;
+  function showModal(message) {
+    const existing = document.querySelector(".cb-modal-overlay");
+    if (existing) existing.remove();
+    const overlay = document.createElement("div");
+    overlay.className = "cb-modal-overlay";
+    const modal = document.createElement("div");
+    modal.className = "cb-modal";
+    const text = document.createElement("p");
+    text.className = "cb-modal-message";
+    text.textContent = message;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "primary-button cb-modal-close";
+    button.textContent = "OK";
+    button.addEventListener("click", () => overlay.remove());
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) overlay.remove();
+    });
+    modal.append(text, button);
+    overlay.append(modal);
+    document.body.appendChild(overlay);
+  }
+
+  const LANGUAGE_KEY = "creambyte.language.v1";
+  let currentLanguage = "en";
+  try {
+    currentLanguage = localStorage.getItem(LANGUAGE_KEY) || "en";
+  } catch {}
+  const STRINGS = {
+    en: {
+      pointsRequired: "You need 50 points or more to apply them.",
+      loginIdFirst: "Enter your Member ID first.",
+      pinEnter: "Enter your 4–6 digit PIN.",
+      noMember: "No member found for that ID.",
+      incorrectPin: "Incorrect PIN. Please try again.",
+      registerInvalid:
+        "Enter a valid Member ID, your name, and a 4–6 digit PIN.",
+    },
+  };
+  const STR = (key) => STRINGS[currentLanguage]?.[key] || STRINGS.en[key] || "";
+
+  function setLanguage(code) {
+    currentLanguage = code;
+    try {
+      localStorage.setItem(LANGUAGE_KEY, code);
+    } catch {}
+  }
+
+  const languagePill = document.querySelector(".language-pill");
+  if (languagePill) {
+    languagePill.addEventListener("click", (event) => {
+      event.stopPropagation();
+      let menu = languagePill.querySelector(".cb-language-menu");
+      if (!menu) {
+        menu = document.createElement("div");
+        menu.className = "cb-language-menu";
+        const options = [{ code: "en", label: "English" }];
+        options.forEach((option) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "cb-language-option";
+          button.textContent = option.label;
+          button.addEventListener("click", () => {
+            setLanguage(option.code);
+            menu.remove();
+          });
+          menu.appendChild(button);
+        });
+        languagePill.appendChild(menu);
+      }
+      menu.classList.toggle("open");
+    });
+  }
+  document.addEventListener("click", (event) => {
+    const menu = document.querySelector(".cb-language-menu");
+    const pill = document.querySelector(".language-pill");
+    if (!menu || !pill) return;
+    if (menu.classList.contains("open") && pill.contains(event.target)) {
+      return;
+    }
+    if (menu.classList.contains("open") && !menu.contains(event.target)) {
+      menu.classList.remove("open");
+    }
+  });
   const state = loadOrder();
   state.member = readMember();
 
@@ -589,6 +673,10 @@
       remove.addEventListener("click", () => {
         state.items = state.items.filter((entry) => entry.id !== item.id);
         saveOrder();
+        if (state.items.length === 0) {
+          go("flavor.html");
+          return;
+        }
         renderCart();
       });
       controls.append(quantity, remove);
@@ -616,14 +704,27 @@
     if (state.activeMember) {
       if (!pointsApply) return;
       pointsApply.hidden = false;
-      const hasPoints = state.member.points > 0;
+      if (state.redeemedPoints > 0) {
+        if (applyPoints) {
+          applyPoints.hidden = true;
+          applyPoints.disabled = true;
+        }
+        if (guestCreatePoints) guestCreatePoints.hidden = true;
+        if (pointsNote) {
+          pointsNote.textContent = `Points applied: -${money(state.redeemedPoints)}`;
+        }
+        return;
+      }
+      const hasPoints = state.member.points >= 50;
       if (applyPoints) {
         applyPoints.hidden = !hasPoints;
         applyPoints.disabled = !hasPoints;
       }
       if (guestCreatePoints) guestCreatePoints.hidden = true;
       if (pointsNote) {
-        pointsNote.textContent = `You have ${state.member.points} points — apply them to lower this order.`;
+        pointsNote.textContent = hasPoints
+          ? `You have ${state.member.points} points — apply them to lower this order.`
+          : "You need 50 points or more to apply them.";
       }
       return;
     }
@@ -631,11 +732,7 @@
     pointsApply.hidden = false;
     if (applyPoints) applyPoints.hidden = true;
     if (guestCreatePoints) guestCreatePoints.hidden = false;
-    const earned = Math.floor(
-      (state.items.reduce((sum, item) => sum + item.price * item.quantity, 0) *
-        1.12) /
-        10,
-    );
+    const earned = 10;
     if (pointsNote) {
       pointsNote.textContent = `Create an account to earn ${earned} points on this order.`;
     }
@@ -676,7 +773,7 @@
     );
     const redeemed = Math.min(state.redeemedPoints || 0, subtotal);
     const payable = Math.max(0, subtotal - redeemed);
-    const earned = state.activeMember ? Math.floor((payable * 1.12) / 10) : 0;
+    const earned = state.activeMember ? 5 : 0;
     state.redeemedPoints = redeemed;
     if (state.activeMember) {
       state.member = {
@@ -706,7 +803,7 @@
     const earned = state.pointsEarned
       ? state.pointsEarned
       : state.activeMember
-        ? Math.floor((payable * 1.12) / 10)
+        ? 5
         : 0;
     const used = $("#points-used");
     const earnedEl = $("#points-earned");
@@ -817,16 +914,13 @@
       const name = $("#member-name").value.trim();
       const pin = $("#member-pin").value.trim();
       if (!/^MBR-\d{5}$/.test(id) || !name || !/^[0-9]{4,6}$/.test(pin)) {
-        const error = $("#form-error");
-        error.textContent =
-          "Enter a valid Member ID, your name, and a 4–6 digit PIN.";
-        error.hidden = false;
+        showModal(STR("registerInvalid"));
         return;
       }
       state.member = {
         id,
         name,
-        points: state.member?.id === id ? state.member.points : 0,
+        points: state.member?.id === id ? state.member.points : 10,
         pin,
       };
       state.activeMember = state.member;
@@ -839,18 +933,18 @@
       state.redeemedPoints = 0;
       saveOrder();
       localStorage.setItem(MEMBER_KEY, JSON.stringify(state.member));
-      go("login.html");
+      go("payment.html");
     });
   }
 
   if (PAGE === "preference") {
-    const greeting = $("#preference-greeting");
-    greeting.hidden = !state.activeMember;
-    greeting.textContent = state.activeMember
-      ? state.justRegistered
-        ? `Hi, ${state.activeMember.name}! Your member ID is ${state.activeMember.id}. Save or take a photo of it for next time.`
-        : `Hi, ${state.activeMember.name}!`
-      : "";
+    const pointsNote = $("#preference-points");
+    if (state.activeMember) {
+      pointsNote.hidden = false;
+      pointsNote.textContent = `Hi! ${state.activeMember.name} your total points earned is ${state.activeMember.points}`;
+    } else {
+      pointsNote.hidden = true;
+    }
     document.querySelectorAll("[data-order-type]").forEach((button) =>
       button.addEventListener("click", () => {
         state.orderType = button.dataset.orderType;
@@ -867,17 +961,39 @@
     if (!state.items.length)
       window.location.replace("/frontend/src/preference.html");
     renderCart();
-    $("#add-another-order").addEventListener("click", () => {
+    $("#add-another-order").addEventListener("click", (event) => {
+      event.preventDefault();
       state.editingId = null;
       state.draft = EMPTY_SELECTION();
       state.unlockedStep = 0;
       saveOrder();
+      go("flavor.html");
     });
     $("#edit-order").addEventListener("click", (event) => {
       event.preventDefault();
       const item = state.items[state.items.length - 1];
       if (!item) return;
       startEdit(item.id);
+    });
+    $("#apply-points").addEventListener("click", () => {
+      if (!state.activeMember) return;
+      if (state.redeemedPoints > 0) return;
+      const subtotal = state.items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+      if (state.member.points < 50) {
+        showModal(STR("pointsRequired"));
+        return;
+      }
+      state.redeemedPoints = Math.min(state.member.points, subtotal);
+      saveOrder();
+      renderTotals($("#cart-totals"));
+      refreshPointsUi();
+    });
+    $("#guest-create-points").addEventListener("click", () => {
+      state.pendingGuestItems = true;
+      go("register.html");
     });
     $("#checkout").addEventListener("click", (event) => {
       if (!state.items.length) {
@@ -915,7 +1031,7 @@
 
     const renderDisplay = () => {
       keypadDisplay.textContent =
-        stage === "id" ? `MBR - ${entry}` : `PIN · ${entry || "...."}`;
+        stage === "id" ? `MBR - ${entry}` : `PIN · ${"*".repeat(entry.length)}`;
     };
     renderDisplay();
     keypadGrid.addEventListener("click", (event) => {
@@ -945,14 +1061,12 @@
     });
     keypadLogin.addEventListener("click", () => {
       if (stage !== "pin") {
-        formError.textContent = "Enter your Member ID first.";
-        formError.hidden = false;
+        showModal(STR("loginIdFirst"));
         return;
       }
       const pin = entry;
       if (pin.length < 4) {
-        formError.textContent = "Enter your 4–6 digit PIN.";
-        formError.hidden = false;
+        showModal(STR("pinEnter"));
         return;
       }
       let saved = null;
@@ -965,13 +1079,11 @@
       const member =
         saved && normalizeId(saved.id) === normalizeId(fullId) ? saved : null;
       if (!member) {
-        formError.textContent = "No member found for that ID.";
-        formError.hidden = false;
+        showModal(STR("noMember"));
         return;
       }
       if (member.pin !== pin) {
-        formError.textContent = "Incorrect PIN. Please try again.";
-        formError.hidden = false;
+        showModal(STR("incorrectPin"));
         return;
       }
       state.member = {
@@ -1005,18 +1117,28 @@
     document.querySelectorAll("[data-complete]").forEach((link) =>
       link.addEventListener("click", (event) => {
         event.preventDefault();
+        if (link.dataset.complete === "instapay") {
+          go("qr.html");
+          return;
+        }
         completeOrder();
       }),
     );
   }
 
+  if (PAGE === "qr") {
+    if (!state.items.length) window.location.replace("/frontend/src/cart.html");
+    $("#qr-complete").addEventListener("click", () => completeOrder());
+  }
+
   if (PAGE === "confirmed") {
     if (!state.orderComplete) window.location.replace("/frontend/src/");
     renderConfirmation();
-    $("#back-home").addEventListener("click", () => {
-      state.activeMember = null;
+    $("#back-home").addEventListener("click", (event) => {
+      event.preventDefault();
       startNewOrder();
       saveOrder();
+      go("preference.html");
     });
     $("#done").addEventListener("click", () => {
       state.activeMember = null;
@@ -1037,6 +1159,7 @@
       else if (PAGE === "cart") go("preference.html");
       else if (PAGE === "payment") go("cart.html");
       else if (PAGE === "cashless") go("payment.html");
+      else if (PAGE === "qr") go("cashless.html");
     }),
   );
 })();

@@ -3,6 +3,14 @@
   flex-direction: column;
   padding: clamp(28px, 2.6vw, 42px);
 }
+.cashless-panel .back-button {
+  position: static;
+  top: auto;
+  left: auto;
+  width: clamp(42px, 3.2vw, 56px);
+  height: clamp(42px, 3.2vw, 56px);
+  margin: 0 0 14px 0;
+}
 .cashless-panel > h1 {
   margin: 0;
   font-size: clamp(20px, 1.7vw, 28px);
