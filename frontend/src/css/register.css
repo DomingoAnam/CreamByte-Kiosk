@@ -69,6 +69,28 @@
   border-color: #f45b82;
   box-shadow: 0 0 0 3px rgba(244, 91, 130, 0.16);
 }
+.member-form label:has(.pin-toggle) {
+  position: relative;
+}
+.member-form label:has(.pin-toggle) .pin-toggle {
+  position: absolute;
+  top: 68%;
+  right: clamp(12px, 1.4vw, 20px);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(36px, 3vw, 46px);
+  height: clamp(36px, 3vw, 46px);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #b0284b;
+  cursor: pointer;
+}
+.member-form label:has(.pin-toggle) .pin-toggle:hover {
+  background: #fff4f1;
+}
 .form-note {
   margin: 0;
   color: #927c76;

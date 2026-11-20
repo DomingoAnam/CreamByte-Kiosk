@@ -935,6 +935,18 @@
       localStorage.setItem(MEMBER_KEY, JSON.stringify(state.member));
       go("payment.html");
     });
+    const pinToggle = $("#pin-toggle");
+    if (pinToggle) {
+      pinToggle.addEventListener("click", () => {
+        const pinInput = $("#member-pin");
+        const nextType = pinInput.type === "password" ? "text" : "password";
+        pinInput.type = nextType;
+        pinToggle.setAttribute(
+          "aria-label",
+          nextType === "text" ? "Hide PIN" : "Show PIN",
+        );
+      });
+    }
   }
 
   if (PAGE === "preference") {
@@ -1056,7 +1068,7 @@
         renderDisplay();
         return;
       }
-      if (/^[0-9]$/.test(key)) entry += key;
+      if (/^[0-9]$/.test(key) && entry.length < 6) entry += key;
       renderDisplay();
     });
     keypadLogin.addEventListener("click", () => {
@@ -1065,7 +1077,7 @@
         return;
       }
       const pin = entry;
-      if (pin.length < 4) {
+      if (pin.length < 4 || pin.length > 6) {
         showModal(STR("pinEnter"));
         return;
       }
