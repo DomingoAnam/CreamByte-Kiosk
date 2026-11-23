@@ -8,7 +8,8 @@
   color-scheme: light;
   font-family: "Plus Jakarta Sans", sans-serif;
   color: #360f02;
-  background: #fff;
+  background: #fff url("/frontend/src/assets/Background.png") center / cover
+    no-repeat fixed;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -16,7 +17,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: #fff;
+  background: transparent;
 }
 button,
 input {
@@ -42,7 +43,9 @@ a:focus-visible {
   justify-content: space-between;
   padding: 0 22px;
   border-bottom: 1px solid #f8e9e4;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   box-shadow: 0 2px 8px rgba(54, 15, 2, 0.06);
 }
 .brand-link {
@@ -80,7 +83,7 @@ a:focus-visible {
   justify-content: center;
   align-items: stretch;
   padding: 22px 18px;
-  background: #fff1ec;
+  background: transparent;
 }
 .panel {
   position: relative;
